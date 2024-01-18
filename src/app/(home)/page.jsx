@@ -12,6 +12,7 @@ export default function Home() {
     <main className="relative">
       <div className="fixed w-full top-0 z-10">
         <Navbar />
+        <h1>hqa</h1>
       </div>
       <Container>
         <div className="h-screen pt-2">
