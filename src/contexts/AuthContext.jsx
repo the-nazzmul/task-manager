@@ -9,12 +9,15 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "@/configuration/firebase.configsrc";
+import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -28,11 +31,12 @@ export const AuthContextProvider = ({ children }) => {
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
+    return signInWithPopup(auth, provider);
   };
 
   const logOut = () => {
     signOut(auth);
+    router.push("/");
   };
 
   useEffect(() => {
