@@ -1,9 +1,10 @@
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-const TodoCard = ({ name, items, id }) => {
+const TodoCard = ({ name, items, _id }) => {
+  // console.log(_id);
   return (
-    <Droppable droppableId={id}>
+    <Droppable droppableId={_id}>
       {(provided) => (
         <div
           {...provided.droppableProps}
@@ -23,14 +24,12 @@ const TodoCard = ({ name, items, id }) => {
           </div>
           <div className="space-y-2">
             {items.length === 0 ? (
-              // Render default div when items array is empty
               <div className="bg-gradient-to-l from-orange-400 to-orange-300 py-2 px-4  rounded-md">
                 <h1 className="font-semibold text-center">No items yet. Add items here...</h1>
               </div>
             ) : (
-              // Render items when items array is not empty
               items.map((item, index) => (
-                <Draggable draggableId={item.id} index={index} key={item.id}>
+                <Draggable draggableId={item._id} index={index} key={item._id}>
                   {(provided) => (
                     <div
                       className="bg-gradient-to-l from-orange-400 to-orange-300 py-2 px-4 grid grid-cols-4 rounded-md"

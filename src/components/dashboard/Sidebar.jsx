@@ -2,9 +2,11 @@
 import Link from "next/link";
 import { GrTasks, GrEdit } from "react-icons/gr";
 import { FaHome } from "react-icons/fa";
-import { useContext } from "react";
+import { useTodo } from "@/contexts/TodoContextsrc";
 
 const Sidebar = () => {
+  const { tasks } = useTodo();
+  const incompleteTasks = tasks?.find((task)=> task.name === 'Todo')
   return (
     <nav className="py-6 px-4">
       <ul className="space-y-2">
@@ -15,6 +17,9 @@ const Sidebar = () => {
           >
             <GrTasks />
             Tasks
+            <button className="bg-white text-sm rounded-full px-2 text-red-500">
+              {incompleteTasks?.items.length ? incompleteTasks?.items.length : 0}
+            </button>
           </Link>
         </li>
         <li>

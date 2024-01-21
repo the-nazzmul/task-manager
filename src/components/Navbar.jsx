@@ -6,6 +6,7 @@ import { UserAuth } from "@/contexts/AuthContextsrc";
 
 const Navbar = () => {
   const { user, logOut } = UserAuth();
+  
   return (
     <Container>
       <div className="h-20 flex items-center justify-between bg-gradient-to-b from-black to-slate-700 w-full text-white px-8 ">

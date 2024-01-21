@@ -9,10 +9,14 @@ import LoginImage from "../../../public/assets/login.svg";
 import SocialLogin from "@/components/SocialLoginsrc";
 import { UserAuth } from "@/contexts/AuthContextsrc";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useTodo } from "@/contexts/TodoContextsrc";
 
 const Register = () => {
   const { createUser } = UserAuth();
- const router = useRouter();
+  const { setTasks } = useTodo();
+  const router = useRouter();
+
   const {
     register,
     watch,
@@ -22,8 +26,17 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     const { email, password } = data;
-    createUser(email, password);
-    router.push('/')
+    const result = await createUser(email, password);
+
+    const userEmail = result.user.email;
+
+    await axios
+      .post("http://localhost:4000/api/v1/users/register", { email: userEmail })
+      .then((res) => {
+        setTasks(res.data.data.tasks);
+      });
+
+    router.push("/dashboard");
   };
   return (
     <Container>

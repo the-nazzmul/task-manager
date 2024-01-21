@@ -1,7 +1,9 @@
 "use client";
 import Container from "@/components/Containersrc";
 import PrimaryButton from "@/components/PrimaryButtonsrc";
+import { UserAuth } from "@/contexts/AuthContextsrc";
 import { useTodo } from "@/contexts/TodoContextsrc";
+import axios from "axios";
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,6 +19,7 @@ const AddTask = () => {
   const [descriptionCount, setDescriptionCount] = useState(0);
 
   const { tasks, setTasks } = useTodo();
+  const {user} = UserAuth()
 
   const handleDescriptionChange = (event) => {
     const inputValue = event.target.value;
@@ -27,20 +30,25 @@ const AddTask = () => {
     const { title, description, deadline, priority } = data;
 
     const newTask = {
-      id: Math.random().toString(),
       title,
       description,
       deadline,
       priority,
     };
 
-    const updatedTasks = [
-      {
-        ...tasks[0],
-        items: [...tasks[0].items, newTask],
-      },
-      ...tasks.slice(1),
-    ];
+    
+
+    const todoIndex = tasks.findIndex((task) => task.name === "Todo");
+
+    const updatedTasks = [...tasks]
+    updatedTasks[todoIndex] ={
+      ...tasks[todoIndex],
+      items: [...tasks[todoIndex].items, newTask]
+    }
+
+     axios.put(`http://localhost:4000/api/v1/users/tasks/${user.email}`, {
+       tasks: updatedTasks,
+     }).then((res)=>console.log(res));
 
     setTasks(updatedTasks);
 
@@ -48,7 +56,7 @@ const AddTask = () => {
   };
   return (
     <Container>
-      <div className=" py-16 h-screen w-full items-center bg-gradient-to-b from-slate-700 to-gray-500">
+      <div className=" py-16 h-screen w-full items-center">
         <form
           className="w-3/4 mx-auto space-y-4  p-8 bg-teal-400 rounded-md"
           onSubmit={handleSubmit(onSubmit)}
@@ -115,7 +123,7 @@ const AddTask = () => {
           </div>
           <div className="pt-2">
             <PrimaryButton block>
-              <input type="submit" value="Add Task" />
+              <input className="cursor-pointer" type="submit" value="Add Task" />
             </PrimaryButton>
           </div>
         </form>

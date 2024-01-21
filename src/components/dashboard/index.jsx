@@ -18,7 +18,7 @@ const Dashboard = ({ children }) => {
         <div className="col-span-2 bg-gradient-to-b from-teal-500 to-teal-200 h-screen">
           <Sidebar tasks={tasks}/>
         </div>
-        <main className="col-span-10">{children}</main>
+        <main className="col-span-10 ">{children}</main>
       </div>
     </Container>
   );
